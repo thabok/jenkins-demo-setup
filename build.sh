@@ -4,7 +4,8 @@
 mkdir -p jenkins_home_local
 
 # replace the placeholder with the actual IP address and save to jenkins_home_local
-IP_ADDRESS=$(ifconfig en0 | grep 'inet .*' | cut -d' ' -f2)
+# IP_ADDRESS=$(ifconfig en0 | grep 'inet .*' | cut -d' ' -f2)
+IP_ADDRESS=18.185.66.74
 sed "s/IP_ADDRESS/${IP_ADDRESS}/g" jenkins-controller-build/jenkins.yaml > jenkins_home_local/jenkins.yaml
 
 # build container image for jenkins controller 
@@ -17,4 +18,4 @@ docker build -t jenkins/agent:custom jenkins-agent-build
 docker-compose down
 docker-compose up -d
 
-echo Jenkins is now running on http://${IP_ADDRESS}:8081
+echo Jenkins is now running on http://${IP_ADDRESS}

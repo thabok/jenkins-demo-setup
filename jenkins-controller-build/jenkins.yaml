@@ -17,7 +17,7 @@ jenkins:
       dockerApi:
         connectTimeout: 60
         dockerHost:
-          uri: "tcp://IP_ADDRESS:2376"
+          uri: "unix:///var/run/docker.sock"
         readTimeout: 60
       name: "docker"
       templates:
@@ -58,4 +58,4 @@ jobs:
 
 unclassified:
   location:
-    url: "http://IP_ADDRESS:8081"
+    url: "http://IP_ADDRESS"
