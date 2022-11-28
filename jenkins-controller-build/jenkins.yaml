@@ -1,0 +1,61 @@
+jenkins:
+  numExecutors: 0
+  securityRealm:
+    local:
+      allowsSignup: true
+  slaveAgentPort: 60000
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/experimental/update-center.json"
+  remotingSecurity:
+    enabled: true
+  
+  clouds:
+  - docker:
+      containerCap: 25
+      dockerApi:
+        connectTimeout: 60
+        dockerHost:
+          uri: "tcp://IP_ADDRESS:2376"
+        readTimeout: 60
+      name: "docker"
+      templates:
+      - connector: 
+          attach:
+            user: "root"
+        dockerTemplateBase:
+          image: "jenkins/agent:custom"
+          mounts:
+          - "type=bind,source=/var/run/docker.sock,destination=/var/run/docker.sock"
+          network: "jdn"
+          bindAllPorts: true
+        labelString: "linux"
+        name: "linux"
+        pullTimeout: 300
+        remoteFs: "/home/jenkins/agent"
+  disabledAdministrativeMonitors:
+  - "jenkins.security.ResourceDomainRecommendation"
+
+  labelAtoms:
+    - name: "linux"
+
+security:
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: false
+
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+
+jobs:
+  # simple example using a public docker image (node:alpine)
+  - file: ./jobdsl/example-job-1.groovy
+  # example testing c-code with btces/ep image (requires docker-login)
+  - file: ./jobdsl/example-job-2.groovy
+
+unclassified:
+  location:
+    url: "http://IP_ADDRESS:8081"

@@ -1,0 +1,25 @@
+services:
+    # Jenkins based on custom image with specified plugins
+    jenkins_controller:
+        image: jenkins/controller:local
+        container_name: jenkins_controller
+        volumes:
+            - ./jenkins_home_local:/var/jenkins_home
+        ports:
+            - "8081:8080"
+            - "60000:60000"
+
+    # make the docker api available on tcp://IP_ADDRESS:2376
+    socat_bridge:
+      image: alpine/socat
+      command: tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock
+      container_name: socat_bridge
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+      ports:
+        - 2376:2375
+
+# allow jenkins agents and any additional containers to communicate within this network
+networks:
+    default:
+        name: jdn

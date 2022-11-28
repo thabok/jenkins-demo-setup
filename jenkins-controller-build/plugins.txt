@@ -1,0 +1,14 @@
+configuration-as-code:latest
+job-dsl:latest
+pipeline-utility-steps:latest
+blueocean:latest
+credentials:latest
+git:latest
+pipeline-stage-view:latest
+ws-cleanup:latest
+pipeline-github-lib:latest
+workflow-aggregator:latest
+command-launcher:latest
+cloudbees-folder:latest
+docker-plugin:latest
+docker-workflow:latest
